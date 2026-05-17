@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poltergeist Labs — Where Junior Developers Become Engineers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:     #08080f;
+            --bg2:    #0d0d1a;
+            --bg3:    #111120;
+            --purple: #7c5af0;
+            --purple-light: #9b7ef8;
+            --text:   #e8e8f0;
+            --muted:  #7878a0;
+            --border: #1c1c32;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(8,8,15,.9);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .nav-logo img { width: 64px; height: 64px; object-fit: contain; }
+
+        .nav-logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .nav-logo-text span:first-child { font-size: 16px; font-weight: 800; letter-spacing: 1.5px; }
+        .nav-logo-text span:last-child  { font-size: 10px;  font-weight: 600; letter-spacing: 3px; color: var(--muted); }
+
+        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            transition: color .2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .btn-apply {
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+        }
+
+        .btn-apply:hover { background: var(--purple-light); transform: translateY(-1px); }
+
+        /* ── HERO ── */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -160px; right: 0;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(124,90,240,.13) 0%, transparent 68%);
+            pointer-events: none;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding-top: 56px;
+            padding-bottom: 60px;
+            width: 100%;
+        }
+
+        .hero-content { max-width: 540px; }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 600;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p { color: var(--muted); font-size: 17px; margin-bottom: 36px; line-height: 1.7; }
+
+        .hero-buttons { display: flex; gap: 14px; align-items: center; }
+
+        .btn-primary {
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 13px 26px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: background .2s, transform .1s;
+            font-family: inherit;
+        }
+
+        .btn-primary:hover { background: var(--purple-light); transform: translateY(-1px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 13px 26px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color .2s, background .2s;
+        }
+
+        .btn-secondary:hover { border-color: var(--purple); background: rgba(124,90,240,.05); }
+
+        .hero-visual { flex-shrink: 0; }
+
+        .hero-visual img {
+            width: 420px;
+            height: auto;
+            filter: drop-shadow(0 24px 60px rgba(124,90,240,.25));
+        }
+
+        /* ── STATS ── */
+        .stats {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg2);
+        }
+
+        .stats .container { display: flex; }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 26px 0;
+            flex: 1;
+            justify-content: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-item:last-child { border-right: none; }
+
+        .stat-icon { display: flex; align-items: center; justify-content: center; color: var(--purple); width: 52px; height: 52px; background: rgba(124,90,240,.08); border-radius: 14px; flex-shrink: 0; }
+
+        .stat-text strong { display: block; font-size: 15px; font-weight: 700; }
+        .stat-text span   { font-size: 12px; color: var(--muted); }
+
+        /* ── SECTIONS ── */
+        section { padding: 96px 0; }
+
+        .section-label {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 14px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 60px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ── DIFF GRID ── */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .diff-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px 26px;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .diff-card:hover { border-color: rgba(124,90,240,.45); transform: translateY(-4px); }
+
+        .diff-card-icon {
+            width: 64px; height: 64px;
+            background: rgba(124,90,240,.1);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            color: var(--purple);
+        }
+
+        .diff-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+        .diff-card p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+        /* ── PROGRAM ── */
+        .program-section { background: var(--bg2); }
+
+        .program-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 28px;
+        }
+
+        .week-list { display: flex; flex-direction: column; gap: 3px; }
+
+        .week-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background .15s;
+        }
+
+        .week-item:hover  { background: rgba(124,90,240,.07); }
+        .week-item.active { background: rgba(124,90,240,.11); border-color: rgba(124,90,240,.28); }
+
+        .week-num { font-size: 12px; font-weight: 800; color: var(--purple); min-width: 36px; }
+
+        .week-info strong { display: block; font-size: 13px; font-weight: 600; }
+        .week-info span   { font-size: 11px; color: var(--muted); }
+
+        .week-arrow { color: var(--muted); font-size: 13px; margin-left: auto; }
+
+        /* ── CODE PANEL ── */
+        .code-panel {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 460px;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 14px 20px;
+            background: #161b22;
+            border-bottom: 1px solid #21262d;
+            flex-shrink: 0;
+        }
+
+        .code-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .code-dot.red    { background: #ff5f57; }
+        .code-dot.yellow { background: #febc2e; }
+        .code-dot.green  { background: #28c840; }
+
+        .code-lang { margin-left: auto; font-size: 12px; color: #6e7681; font-family: 'Courier New', monospace; }
+
+        .week-detail-content {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity .3s cubic-bezier(.22,1,.36,1), transform .3s cubic-bezier(.22,1,.36,1);
+            overflow: hidden;
+        }
+        .week-detail-content.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .code-panels-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 400px;
+        }
+
+        .code-body {
+            flex: 1;
+            overflow: auto;
+            padding: 20px 0 40px 0;
+        }
+
+        .code-line {
+            display: flex;
+            align-items: flex-start;
+            padding: 0 20px 0 0;
+            min-height: 22px;
+        }
+
+        .ln {
+            width: 44px;
+            text-align: right;
+            padding-right: 20px;
+            color: #3d444d;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 22px;
+            user-select: none;
+            flex-shrink: 0;
+            border-right: 1px solid #21262d;
+            margin-right: 20px;
+        }
+
+        .code-text {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 22px;
+            white-space: pre;
+            color: #c9d1d9;
+        }
+
+        .kw  { color: #ff7b72; }
+        .ann { color: #7ee787; }
+        .cls { color: #ffa657; }
+        .fn  { color: #d2a8ff; }
+        .str { color: #a5d6ff; }
+        .cmt { color: #6e7681; font-style: italic; }
+        .num { color: #79c0ff; }
+        .op  { color: #ff7b72; }
+
+        .assignment-bar {
+            background: #161b22;
+            border-top: 1px solid #21262d;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .assignment-bar strong {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--purple);
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .assignment-bar p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+        /* ── MENTORSHIP ── */
+        .mentorship-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .mentor-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px 26px;
+            transition: border-color .2s;
+        }
+
+        .mentor-card:hover { border-color: rgba(124,90,240,.45); }
+
+        .mentor-card-icon { display: flex; align-items: center; margin-bottom: 14px; color: var(--purple); }
+        .mentor-card h3   { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+
+        .mentor-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+        .mentor-card ul li {
+            font-size: 13px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mentor-card ul li::before { content: '→'; color: var(--purple); font-size: 11px; }
+
+        /* ── BEYOND ── */
+        .beyond-section { background: var(--bg2); }
+
+        .beyond-layout {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .beyond-ghost { flex-shrink: 0; }
+
+        .beyond-ghost img {
+            width: 280px;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(124,90,240,.2));
+        }
+
+        .beyond-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .beyond-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 22px;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .beyond-card:hover { border-color: rgba(124,90,240,.4); transform: translateY(-3px); }
+
+        .beyond-card-icon {
+            width: 60px; height: 60px;
+            background: rgba(124,90,240,.1);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 16px;
+            color: var(--purple);
+        }
+
+        .beyond-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+        .beyond-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+        /* ── FAQ ── */
+        .faq-section { background: var(--bg); }
+
+        .faq-list {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(13,13,26,.5);
+            overflow: hidden;
+            transition: border-color .25s, box-shadow .25s, background .25s;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 600;
+            text-align: left;
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            transition: background .2s;
+        }
+
+        .faq-question:hover { background: rgba(124,90,240,.08); }
+
+        .faq-item.open .faq-question { background: rgba(124,90,240,.06); }
+
+        .faq-icon {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background: rgba(124,90,240,.12);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            color: var(--purple);
+            transition: transform .35s cubic-bezier(.22,1,.36,1), background .25s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            background: rgba(124,90,240,.24);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height .4s cubic-bezier(.22,1,.36,1), opacity .35s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        .faq-answer-inner { padding: 20px 24px 24px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+
+        .faq-answer-inner ul { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+        .faq-answer-inner ul li { display: flex; align-items: center; gap: 8px; }
+
+        .faq-answer-inner ul li::before { content: '·'; color: var(--purple); font-size: 20px; line-height: 0; }
+
+        /* ── CTA ── */
+        .cta-section { background: var(--bg); padding: 96px 0; }
+
+        .cta-box {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            background: linear-gradient(135deg, rgba(124,90,240,.1) 0%, rgba(90,63,212,.04) 100%);
+            border: 1px solid rgba(124,90,240,.2);
+            border-radius: 20px;
+        }
+
+        .cta-content { flex: 1; padding: 56px 0; }
+        .cta-content h2 { text-align: left; font-size: 36px; margin-bottom: 14px; }
+        .cta-content p  { text-align: left; color: var(--muted); margin-bottom: 32px; font-size: 16px; max-width: none; }
+
+        .cta-ghost { flex-shrink: 0; padding: 20px 0; }
+
+        .cta-ghost img {
+            width: 260px;
+            height: auto;
+            filter: drop-shadow(0 16px 40px rgba(124,90,240,.2));
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            padding: 44px 0 28px;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-links { display: flex; gap: 28px; list-style: none; }
+
+        .footer-links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color .2s; }
+        .footer-links a:hover { color: var(--text); }
+
+        .footer-socials { display: flex; gap: 12px; }
+
+        .footer-socials a {
+            width: 34px; height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 15px;
+            transition: border-color .2s, color .2s;
+        }
+
+        .footer-socials a:hover { border-color: var(--purple); color: var(--purple); }
+
+        .footer-copy { color: var(--muted); font-size: 12px; text-align: center; margin-top: 28px; border-top: 1px solid var(--border); padding-top: 24px; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+        }
+
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 44px;
+            width: 100%;
+            max-width: 460px;
+            transform: translateY(20px);
+            transition: transform .2s;
+            position: relative;
+        }
+
+        .modal-overlay.open .modal { transform: translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 6px;
+            transition: background .15s, color .15s;
+        }
+
+        .modal-close:hover { background: rgba(255,255,255,.05); color: var(--text); }
+
+        .modal h3 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+        .modal > p { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .form-group { margin-bottom: 14px; }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 6px;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 11px 13px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+            transition: border-color .2s;
+        }
+
+        .form-group input:focus { border-color: var(--purple); }
+        .form-group input::placeholder { color: var(--muted); opacity: .4; }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--purple);
+            color: #fff;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+            font-family: inherit;
+            transition: background .2s;
+        }
+
+        .btn-submit:hover { background: var(--purple-light); }
+
+        .success-message { display: none; text-align: center; padding: 16px 0 8px; }
+        .success-message .s-icon { font-size: 48px; margin-bottom: 14px; }
+        .success-message h4 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .success-message p  { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+        /* ── HAMBURGER ── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            width: 36px;
+            height: 36px;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform .25s, opacity .25s, width .25s;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ── MOBILE MENU ── */
+        .mobile-menu {
+            display: flex;
+            position: fixed;
+            top: 64px; left: 0; right: 0;
+            background: rgba(8,8,15,.97);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 32px 32px;
+            z-index: 99;
+            flex-direction: column;
+            gap: 8px;
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
+
+        .mobile-menu ul li a {
+            display: block;
+            padding: 13px 0;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: color .15s;
+        }
+
+        .mobile-menu ul li:last-child a { border-bottom: none; }
+        .mobile-menu ul li a:hover { color: var(--purple); }
+
+        .mobile-menu .btn-primary { width: 100%; justify-content: center; margin-top: 8px; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .diff-grid { grid-template-columns: repeat(2, 1fr); }
+            .mentorship-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+
+            /* nav */
+            .nav-links { display: none; }
+            .desktop-only { display: none; }
+            .hamburger { display: flex; }
+
+            /* hero */
+            .hero .container {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding-top: 40px;
+                padding-bottom: 48px;
+                gap: 24px;
+            }
+
+            .hero h1 { font-size: 40px; }
+            .hero p   { font-size: 15px; margin-bottom: 28px; }
+
+            .hero-content { max-width: 100%; }
+
+            .hero-visual img { width: 220px; }
+
+            .hero-buttons { justify-content: center; flex-wrap: wrap; }
+
+            /* stats */
+            .stats .container { flex-wrap: wrap; }
+            .stat-item {
+                flex: 1 1 50%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 20px 16px;
+                justify-content: flex-start;
+                gap: 12px;
+            }
+            .stat-item:nth-child(1),
+            .stat-item:nth-child(2) { border-right: 1px solid var(--border); }
+            .stat-item:nth-child(3),
+            .stat-item:nth-child(4) { border-bottom: none; }
+
+            /* sections */
+            section { padding: 64px 0; }
+            h2 { font-size: 30px; }
+            .section-sub { font-size: 15px; margin-bottom: 40px; }
+
+            /* diff grid */
+            .diff-grid { grid-template-columns: 1fr; }
+
+            /* program */
+            .program-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .code-panel { min-height: 380px; }
+
+            /* mentorship */
+            .mentorship-grid { grid-template-columns: 1fr; }
+
+            /* beyond */
+            .beyond-layout { flex-direction: column; gap: 32px; }
+            .beyond-ghost img { width: 180px; }
+            .beyond-grid { grid-template-columns: 1fr; }
+
+            /* cta */
+            .cta-box {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 24px;
+                gap: 32px;
+            }
+
+            .cta-content h2 { text-align: center; font-size: 28px; }
+            .cta-content p  { text-align: center; }
+            .cta-content .btn-primary { margin: 0 auto; }
+
+            .cta-ghost img { width: 180px; }
+
+            /* footer */
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .footer-links { flex-wrap: wrap; gap: 16px; }
+
+            /* diff-grid-2 */
+            .diff-grid-2 { grid-template-columns: 1fr; }
+
+            /* modal */
+            .modal { padding: 32px 24px; margin: 16px; max-width: calc(100% - 32px); }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        /* ── ANIMATIONS ── */
+
+        /* Hero ghost float */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-14px); }
+        }
+
+        .hero-visual img { animation: float 5s ease-in-out infinite; }
+
+        /* Hero content entrance */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content { animation: fadeUp .7s ease both; }
+        .hero-visual  { animation: fadeUp .7s .2s ease both; }
+
+        /* Scroll-reveal — elements visible by default, animate in on scroll */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        .reveal.visible {
+            animation: revealUp .6s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        .reveal-stagger.visible > * {
+            animation: revealUp .55s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        /* Card hover lift — enhance existing */
+        .diff-card    { transition: border-color .2s, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
+        .mentor-card  { transition: border-color .2s, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
+        .beyond-card  { transition: border-color .2s, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
+        .faq-item     { transition: border-color .2s, box-shadow .2s; }
+
+        .diff-card:hover,
+        .mentor-card:hover,
+        .beyond-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(124,90,240,.12); }
+
+        .faq-item.open { border-color: rgba(124,90,240,.3); box-shadow: 0 4px 20px rgba(124,90,240,.07); }
+
+        /* Nav logo grow */
+        .nav-logo { transition: opacity .2s; }
+        .nav-logo:hover { opacity: .8; }
+
+        /* Btn pulse on hover */
+        .btn-primary  { transition: background .2s, transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s; }
+        .btn-apply    { transition: background .2s, transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s; }
+
+        .btn-primary:hover,
+        .btn-apply:hover { box-shadow: 0 8px 24px rgba(124,90,240,.35); }
+
+        /* Section label fade */
+        .section-label { transition: color .3s; }
+
+        /* Stat items stagger */
+        .stats .container { overflow: hidden; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="container nav-inner">
+        <a href="#" class="nav-logo">
+            <img src="img/3.png" alt="Poltergeist Labs">
+            <div class="nav-logo-text">
+                <span>POLTERGEIST</span>
+                <span>LABS</span>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#program" onclick="closeMobileMenu()">Program</a></li>
+            <li><a href="#curriculum" onclick="closeMobileMenu()">Curriculum</a></li>
+            <li><a href="#mentorship" onclick="closeMobileMenu()">Mentorship</a></li>
+            <li><a href="#faq" onclick="closeMobileMenu()">FAQ</a></li>
+        </ul>
+
+        <button class="btn-apply desktop-only" onclick="openModal()">Apply for Pilot Cohort</button>
+
+        <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+    <ul>
+        <li><a href="#program" onclick="closeMobileMenu()">Program</a></li>
+        <li><a href="#curriculum" onclick="closeMobileMenu()">Curriculum</a></li>
+        <li><a href="#mentorship" onclick="closeMobileMenu()">Mentorship</a></li>
+        <li><a href="#faq" onclick="closeMobileMenu()">FAQ</a></li>
+    </ul>
+    <button class="btn-primary" onclick="closeMobileMenu(); openModal()">Apply for Pilot Cohort →</button>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Where Junior Developers<br><span class="accent">Become Engineers</span></h1>
+            <p>A hands-on backend engineering bootcamp.<br>Real projects. Real code reviews. Real growth.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="openModal()">Apply for Pilot Cohort →</button>
+                <a href="#program" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="img/1.png" alt="Poltergeist Labs ghost mascot">
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+    <div class="container">
+        <div class="stat-item reveal">
+            <span class="stat-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <div class="stat-text"><strong>12 Weeks</strong><span>Intensive Program</span></div>
+        </div>
+        <div class="stat-item reveal">
+            <span class="stat-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <div class="stat-text"><strong>Small Cohorts</strong><span>Focused Mentorship</span></div>
+        </div>
+        <div class="stat-item reveal">
+            <span class="stat-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+            <div class="stat-text"><strong>Real Projects</strong><span>Production-Style</span></div>
+        </div>
+        <div class="stat-item reveal">
+            <span class="stat-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+            <div class="stat-text"><strong>Career Support</strong><span>From CV to Offers</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- What makes it different -->
+<section id="program">
+    <div class="container">
+        <div class="section-label">Why Poltergeist Labs</div>
+        <h2>What makes this different?</h2>
+        <p class="section-sub">We focus on what really prepares you for a junior backend role.</p>
+
+        <div class="diff-grid reveal-stagger">
+            <div class="diff-card">
+                <div class="diff-card-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+                <h3>Production-Style Projects</h3>
+                <p>Build real backend systems from day one. No toy apps. Real architecture, real decisions, real engineering.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-card-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>Mentorship That Matters</h3>
+                <p>Learn in small groups with engineers who've been in your shoes. Direct feedback, not automated checks.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-card-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                <h3>Code Reviews That Level Up</h3>
+                <p>Get detailed feedback on your code, architecture decisions, and engineering mindset — not just syntax.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-card-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+                <h3>Career-Focused</h3>
+                <p>We help you prepare for interviews, build your profile, and land your first engineering role.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Curriculum -->
+<section class="program-section" id="curriculum">
+    <div class="container">
+        <div class="section-label">The Program</div>
+        <h2>12 Weeks. Built to take you from<br>strong fundamentals to real-world experience.</h2>
+        <p class="section-sub">A structured path through backend engineering — from foundations to collaborative capstone.</p>
+
+        <div class="program-layout reveal">
+            <!-- week list -->
+            <div class="week-list">
+                <div class="week-item active" onclick="selectWeek(this,0)">
+                    <span class="week-num">01</span>
+                    <div class="week-info"><strong>Engineering Foundations</strong><span>Git, GitHub, Architecture</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,1)">
+                    <span class="week-num">02</span>
+                    <div class="week-info"><strong>REST &amp; Database</strong><span>SQL, REST APIs, JDBC</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,2)">
+                    <span class="week-num">03</span>
+                    <div class="week-info"><strong>Spring Core</strong><span>DI, Beans, Architecture</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,3)">
+                    <span class="week-num">04</span>
+                    <div class="week-info"><strong>Spring Boot APIs</strong><span>Controllers, DTOs, Validation</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,4)">
+                    <span class="week-num">05</span>
+                    <div class="week-info"><strong>Auth &amp; Security</strong><span>JWT, Spring Security</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,5)">
+                    <span class="week-num">06</span>
+                    <div class="week-info"><strong>Testing &amp; Quality</strong><span>Unit, Integration tests</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,6)">
+                    <span class="week-num">07</span>
+                    <div class="week-info"><strong>Docker &amp; Environment</strong><span>Containers, Deployment</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,7)">
+                    <span class="week-num">08</span>
+                    <div class="week-info"><strong>Redis &amp; Performance</strong><span>Caching, Optimization</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,8)">
+                    <span class="week-num">09–10</span>
+                    <div class="week-info"><strong>Team Development</strong><span>Agile, Capstone Sprints</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,9)">
+                    <span class="week-num">11</span>
+                    <div class="week-info"><strong>Finalization &amp; Deploy</strong><span>Deploy, Docs, Bugfix</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+                <div class="week-item" onclick="selectWeek(this,10)">
+                    <span class="week-num">12</span>
+                    <div class="week-info"><strong>Demo Day &amp; Graduation</strong><span>Presentations, Community</span></div>
+                    <span class="week-arrow">›</span>
+                </div>
+            </div>
+
+            <!-- code panel -->
+            <div class="code-panel">
+                <div class="code-header">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                    <span class="code-lang">Java</span>
+                </div>
+                <div class="code-panels-wrap">
+
+                <!-- Week 1 -->
+                <div class="week-detail-content active" id="week-0">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="cmt">// Week 1 — Engineering Foundations</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">public class</span> <span class="cls">UserService</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="kw">private final</span> <span class="cls">UserRepository</span> repository;</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">    <span class="kw">public</span> <span class="cls">UserService</span>(<span class="cls">UserRepository</span> repository) {</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">        <span class="kw">this</span>.repository = repository;</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">    <span class="kw">public</span> <span class="cls">User</span> <span class="fn">findById</span>(<span class="cls">Long</span> id) {</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">        <span class="kw">return</span> repository.<span class="fn">findById</span>(id)</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">            .<span class="fn">orElseThrow</span>(() -&gt; <span class="kw">new</span> <span class="cls">UserNotFoundException</span>(id));</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Set up project structure, Git workflow and first collaborative repository.</p>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="week-detail-content" id="week-1">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@RestController</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="ann">@RequestMapping</span>(<span class="str">"/api/users"</span>)</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"><span class="kw">public class</span> <span class="cls">UserController</span> {</span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="ann">@GetMapping</span>(<span class="str">"/{id}"</span>)</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt; <span class="fn">getUser</span>(<span class="ann">@PathVariable</span> <span class="cls">Long</span> id) {</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">        <span class="cls">User</span> user = userService.<span class="fn">findById</span>(id);</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">ok</span>(user);</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">    <span class="ann">@PostMapping</span></span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt; <span class="fn">create</span>(<span class="ann">@RequestBody</span> <span class="cls">CreateUserRequest</span> req) {</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">        <span class="cls">User</span> created = userService.<span class="fn">create</span>(req);</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">201</span>).<span class="fn">body</span>(created);</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Build a simple REST API connected to a SQL database.</p>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="week-detail-content" id="week-2">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@Service</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">public class</span> <span class="cls">OrderService</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="kw">private final</span> <span class="cls">OrderRepository</span> orderRepository;</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">private final</span> <span class="cls">PaymentClient</span> paymentClient;</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">    <span class="kw">public</span> <span class="cls">Order</span> <span class="fn">createOrder</span>(<span class="cls">CreateOrderRequest</span> request) {</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">        <span class="cls">Order</span> order = <span class="cls">Order</span>.<span class="fn">create</span>(request);</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">        <span class="cls">Payment</span> payment = paymentClient.<span class="fn">charge</span>(request);</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">        order.<span class="fn">complete</span>(payment);</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">        <span class="kw">return</span> orderRepository.<span class="fn">save</span>(order);</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Refactor previous API into proper Spring layered architecture.</p>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="week-detail-content" id="week-3">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@RestController</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="ann">@RequestMapping</span>(<span class="str">"/api/orders"</span>)</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"><span class="ann">@Validated</span></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text"><span class="kw">public class</span> <span class="cls">OrderController</span> {</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">    <span class="ann">@PostMapping</span></span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">OrderDto</span>&gt; <span class="fn">create</span>(</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">            <span class="ann">@RequestBody</span> <span class="ann">@Valid</span> <span class="cls">CreateOrderRequest</span> req) {</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">        <span class="cls">Order</span> order = orderService.<span class="fn">createOrder</span>(req);</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">201</span>)</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">                .<span class="fn">body</span>(<span class="cls">OrderDto</span>.<span class="fn">from</span>(order));</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">    <span class="ann">@ExceptionHandler</span>(<span class="cls">ValidationException</span>.class)</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleValidation</span>(</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">            <span class="cls">ValidationException</span> ex) {</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">badRequest</span>()</span></div>
+<div class="code-line"><span class="ln">18</span><span class="code-text">                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(ex.<span class="fn">getMessage</span>()));</span></div>
+<div class="code-line"><span class="ln">19</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">20</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Build a production-style CRUD backend using Spring Boot.</p>
+                    </div>
+                </div>
+
+                <!-- Week 5 -->
+                <div class="week-detail-content" id="week-4">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@Configuration</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="ann">@EnableWebSecurity</span></span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"><span class="kw">public class</span> <span class="cls">SecurityConfig</span> {</span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="ann">@Bean</span></span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">    <span class="kw">public</span> <span class="cls">SecurityFilterChain</span> <span class="fn">filterChain</span>(</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">            <span class="cls">HttpSecurity</span> http) <span class="kw">throws</span> <span class="cls">Exception</span> {</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">        <span class="kw">return</span> http</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">            .<span class="fn">authorizeHttpRequests</span>(auth -&gt; auth</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">                .<span class="fn">requestMatchers</span>(<span class="str">"/api/auth/**"</span>).<span class="fn">permitAll</span>()</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">                .<span class="fn">anyRequest</span>().<span class="fn">authenticated</span>())</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">            .<span class="fn">addFilterBefore</span>(jwtFilter,</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">                <span class="cls">UsernamePasswordAuthenticationFilter</span>.class)</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">            .<span class="fn">build</span>();</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Implement authentication and authorization into existing backend project.</p>
+                    </div>
+                </div>
+
+                <!-- Week 6 -->
+                <div class="week-detail-content" id="week-5">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@SpringBootTest</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">class</span> <span class="cls">OrderServiceTest</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="ann">@MockBean</span></span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">private</span> <span class="cls">OrderRepository</span> repository;</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">    <span class="ann">@Autowired</span></span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">    <span class="kw">private</span> <span class="cls">OrderService</span> orderService;</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">    <span class="ann">@Test</span></span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">    <span class="kw">void</span> <span class="fn">createOrder_shouldSaveAndReturn</span>() {</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">        <span class="fn">given</span>(repository.<span class="fn">save</span>(<span class="fn">any</span>())).<span class="fn">willReturn</span>(<span class="fn">mockOrder</span>());</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">        <span class="cls">Order</span> result = orderService.<span class="fn">createOrder</span>(<span class="fn">validRequest</span>());</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">        <span class="fn">assertThat</span>(result.<span class="fn">getStatus</span>())</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">                .<span class="fn">isEqualTo</span>(<span class="cls">OrderStatus</span>.COMPLETED);</span></div>
+<div class="code-line"><span class="ln">18</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">19</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Add testing and logging into project workflow.</p>
+                    </div>
+                </div>
+
+                <!-- Week 7 -->
+                <div class="week-detail-content" id="week-6">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@Configuration</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">public class</span> <span class="cls">InfraConfig</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="ann">@Value</span>(<span class="str">"${app.redis.host}"</span>)</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">private</span> <span class="cls">String</span> redisHost;</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">    <span class="ann">@Value</span>(<span class="str">"${app.db.url}"</span>)</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">    <span class="kw">private</span> <span class="cls">String</span> dbUrl;</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">    <span class="ann">@Bean</span></span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">    <span class="kw">public</span> <span class="cls">RedisConnectionFactory</span> <span class="fn">redisConnectionFactory</span>() {</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">        <span class="kw">return new</span> <span class="cls">LettuceConnectionFactory</span>(redisHost, <span class="num">6379</span>);</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">    <span class="cmt">// docker run -p 6379:6379 redis:alpine</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">    <span class="cmt">// docker run -p 5432:5432 postgres:15</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Containerize backend application using Docker.</p>
+                    </div>
+                </div>
+
+                <!-- Week 8 -->
+                <div class="week-detail-content" id="week-7">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@Service</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">public class</span> <span class="cls">ProductService</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="ann">@Cacheable</span>(value = <span class="str">"products"</span>, key = <span class="str">"#id"</span>)</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">public</span> <span class="cls">Product</span> <span class="fn">findById</span>(<span class="cls">Long</span> id) {</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">        <span class="kw">return</span> productRepo.<span class="fn">findById</span>(id)</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">            .<span class="fn">orElseThrow</span>(<span class="cls">ProductNotFoundException</span>::<span class="kw">new</span>);</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">    <span class="ann">@CacheEvict</span>(value = <span class="str">"products"</span>, key = <span class="str">"#id"</span>)</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">    <span class="kw">public void</span> <span class="fn">deleteById</span>(<span class="cls">Long</span> id) {</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">        productRepo.<span class="fn">deleteById</span>(id);</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">    <span class="ann">@CachePut</span>(value = <span class="str">"products"</span>, key = <span class="str">"#result.id"</span>)</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">    <span class="kw">public</span> <span class="cls">Product</span> <span class="fn">update</span>(<span class="cls">UpdateProductRequest</span> req) {</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">        <span class="kw">return</span> productRepo.<span class="fn">save</span>(<span class="cls">Product</span>.<span class="fn">from</span>(req));</span></div>
+<div class="code-line"><span class="ln">18</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">19</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Integrate Redis caching into backend project.</p>
+                    </div>
+                </div>
+
+                <!-- Week 9-10 -->
+                <div class="week-detail-content" id="week-8">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="cmt">// Team PR — feature/payment-service</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="ann">@Service</span></span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"><span class="ann">@Transactional</span></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text"><span class="kw">public class</span> <span class="cls">PaymentService</span> {</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">    <span class="kw">private final</span> <span class="cls">PaymentGateway</span> gateway;</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">    <span class="kw">private final</span> <span class="cls">TransactionRepository</span> txRepo;</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">    <span class="kw">public</span> <span class="cls">Transaction</span> <span class="fn">processPayment</span>(<span class="cls">PaymentRequest</span> req) {</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text">        <span class="cls">Payment</span> result = gateway.<span class="fn">charge</span>(req);</span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">        <span class="kw">if</span> (!result.<span class="fn">isSuccessful</span>()) {</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">            <span class="kw">throw new</span> <span class="cls">PaymentFailedException</span>(result.<span class="fn">getReason</span>());</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">        }</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">        <span class="kw">return</span> txRepo.<span class="fn">save</span>(<span class="cls">Transaction</span>.<span class="fn">from</span>(result));</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">18</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Start and continue collaborative capstone backend project in teams with active PR reviews.</p>
+                    </div>
+                </div>
+
+                <!-- Week 11 -->
+                <div class="week-detail-content" id="week-9">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="ann">@RestControllerAdvice</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">public class</span> <span class="cls">GlobalExceptionHandler</span> {</span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text">    <span class="ann">@ExceptionHandler</span>(<span class="cls">EntityNotFoundException</span>.class)</span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleNotFound</span>(</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">            <span class="cls">EntityNotFoundException</span> ex) {</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">404</span>)</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(<span class="str">"NOT_FOUND"</span>, ex.<span class="fn">getMessage</span>()));</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text">    <span class="ann">@ExceptionHandler</span>(<span class="cls">Exception</span>.class)</span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text">    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleGeneral</span>(<span class="cls">Exception</span> ex) {</span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text">        log.<span class="fn">error</span>(<span class="str">"Unhandled exception"</span>, ex);</span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text">        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">500</span>)</span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text">                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(<span class="str">"SERVER_ERROR"</span>, <span class="str">"Something went wrong"</span>));</span></div>
+<div class="code-line"><span class="ln">16</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">17</span><span class="code-text">}</span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Assignment</strong>
+                        <p>Prepare final backend system for presentation.</p>
+                    </div>
+                </div>
+
+                <!-- Week 12 -->
+                <div class="week-detail-content" id="week-10">
+                    <div class="code-body">
+<div class="code-line"><span class="ln">1</span><span class="code-text"><span class="cmt">// Capstone Project — Final Demo</span></span></div>
+<div class="code-line"><span class="ln">2</span><span class="code-text"><span class="ann">@SpringBootApplication</span></span></div>
+<div class="code-line"><span class="ln">3</span><span class="code-text"><span class="kw">public class</span> <span class="cls">PoltergeistApplication</span> {</span></div>
+<div class="code-line"><span class="ln">4</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">5</span><span class="code-text">    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {</span></div>
+<div class="code-line"><span class="ln">6</span><span class="code-text">        <span class="cls">SpringApplication</span>.<span class="fn">run</span>(</span></div>
+<div class="code-line"><span class="ln">7</span><span class="code-text">            <span class="cls">PoltergeistApplication</span>.class, args);</span></div>
+<div class="code-line"><span class="ln">8</span><span class="code-text">    }</span></div>
+<div class="code-line"><span class="ln">9</span><span class="code-text">}</span></div>
+<div class="code-line"><span class="ln">10</span><span class="code-text"></span></div>
+<div class="code-line"><span class="ln">11</span><span class="code-text"><span class="cmt">// ────────────────────────────────────</span></span></div>
+<div class="code-line"><span class="ln">12</span><span class="code-text"><span class="cmt">// Team: 4 developers</span></span></div>
+<div class="code-line"><span class="ln">13</span><span class="code-text"><span class="cmt">// 847 commits · 112 pull requests</span></span></div>
+<div class="code-line"><span class="ln">14</span><span class="code-text"><span class="cmt">// 68 code reviews · 3 deployments</span></span></div>
+<div class="code-line"><span class="ln">15</span><span class="code-text"><span class="cmt">// ────────────────────────────────────</span></span></div>
+                    </div>
+                    <div class="assignment-bar">
+                        <strong>Final Outcome</strong>
+                        <p>Real backend project experience, collaborative development, production-style workflow, GitHub portfolio, and long-term community access.</p>
+                    </div>
+                </div>
+                </div><!-- /code-panels-wrap -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mentorship -->
+<section id="mentorship">
+    <div class="container">
+        <div class="section-label">Mentorship</div>
+        <h2>You won't learn alone.</h2>
+        <p class="section-sub">Every cohort is guided by experienced engineers who help students transition from isolated learning into real backend engineering workflow.</p>
+
+        <div class="mentorship-grid reveal-stagger">
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                <h3>Weekly Live Sessions</h3>
+                <ul>
+                    <li>Backend architecture</li>
+                    <li>Spring Boot deep dives</li>
+                    <li>Engineering practices</li>
+                    <li>Debugging sessions</li>
+                    <li>Real-world workflows</li>
+                </ul>
+            </div>
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                <h3>Code Reviews &amp; Feedback</h3>
+                <ul>
+                    <li>Code quality &amp; readability</li>
+                    <li>Architecture decisions</li>
+                    <li>Problem solving</li>
+                    <li>Engineering mindset</li>
+                </ul>
+            </div>
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></div>
+                <h3>Pull Request Reviews</h3>
+                <ul>
+                    <li>Collaborative Git workflow</li>
+                    <li>Clean commits</li>
+                    <li>Branch management</li>
+                    <li>Real engineering communication</li>
+                </ul>
+            </div>
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <h3>Daily Discord Support</h3>
+                <ul>
+                    <li>Engineering discussions</li>
+                    <li>Debugging help</li>
+                    <li>Progress sharing</li>
+                    <li>Announcements &amp; community</li>
+                </ul>
+            </div>
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+                <h3>Team Development Guidance</h3>
+                <ul>
+                    <li>Architecture decisions</li>
+                    <li>Project structure</li>
+                    <li>Workflow organization</li>
+                    <li>Collaboration practices</li>
+                </ul>
+            </div>
+            <div class="mentor-card">
+                <div class="mentor-card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+                <h3>Career &amp; Interview Support</h3>
+                <ul>
+                    <li>Technical interview prep</li>
+                    <li>CV &amp; GitHub feedback</li>
+                    <li>Backend engineering advice</li>
+                    <li>Industry readiness guidance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Beyond The Cohort -->
+<section class="beyond-section">
+    <div class="container">
+        <div class="section-label">Community</div>
+        <h2>Beyond The Cohort</h2>
+        <p class="section-sub">Graduation is not the end of the experience. Students remain part of the Poltergeist Labs community.</p>
+
+        <div class="beyond-layout">
+            <div class="beyond-ghost">
+                <img src="img/3.png" alt="Poltergeist Labs ghost">
+            </div>
+            <div class="beyond-grid reveal-stagger">
+                <div class="beyond-card">
+                    <div class="beyond-card-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <h3>Discord Access</h3>
+                    <p>Stay connected, continue engineering discussions, and get support long after graduation.</p>
+                </div>
+                <div class="beyond-card">
+                    <div class="beyond-card-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <h3>Networking Opportunities</h3>
+                    <p>Connect with fellow engineers, alumni, and mentors working in the industry.</p>
+                </div>
+                <div class="beyond-card">
+                    <div class="beyond-card-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                    <h3>Future Community Events</h3>
+                    <p>Participate in future cohort events, engineering sessions, and alumni activities.</p>
+                </div>
+                <div class="beyond-card">
+                    <div class="beyond-card-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3>Alumni Network</h3>
+                    <p>Be part of a growing network of engineers who went through the same journey.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="section-label">FAQ</div>
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-sub">Everything you need to know before applying.</p>
+
+        <div class="faq-list reveal-stagger">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Do I need previous programming experience?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Yes. This program is designed for developers who already understand Java fundamentals and basic OOP concepts. Poltergeist Labs is not a "learn programming from zero" course.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What level should I be before joining?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    You should already be comfortable with:
+                    <ul>
+                        <li>Java basics</li>
+                        <li>OOP principles</li>
+                        <li>Basic Git usage</li>
+                        <li>Writing simple applications independently</li>
+                    </ul>
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is this a beginner-friendly program?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Yes — for junior developers. The program is built for people who already started learning backend development but feel stuck between tutorials and real engineering work.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How much time does the program require?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Expect around 10–15 hours per week including:
+                    <ul>
+                        <li>Live sessions</li>
+                        <li>Assignments</li>
+                        <li>Self-study</li>
+                        <li>Team collaboration</li>
+                    </ul>
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How are the sessions structured?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Each week includes live engineering sessions, practical backend assignments, mentor feedback, code reviews, and Discord collaboration.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Will I work in teams?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Absolutely. Team collaboration is one of the core parts of the experience. The second half of the program focuses heavily on collaborative backend development and engineering workflow.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What technologies are covered?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <ul>
+                        <li>Java</li>
+                        <li>Spring Boot</li>
+                        <li>SQL</li>
+                        <li>Git &amp; GitHub</li>
+                        <li>REST APIs</li>
+                        <li>Docker</li>
+                        <li>Redis</li>
+                        <li>Backend architecture fundamentals</li>
+                    </ul>
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Will there be code reviews?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Yes. Students regularly work with pull requests, code reviews, Git workflows, and collaborative engineering practices throughout the program.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is there a selection process?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Yes. Cohorts are intentionally kept small to maintain strong mentorship quality and collaboration.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Do you guarantee a job?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    No. But the program is heavily focused on practical backend engineering skills, teamwork experience and interview readiness — designed to help students become stronger candidates in the job market.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What happens after graduation?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Students remain part of the Poltergeist Labs community with continued access to Discord, networking, future events, engineering discussions, and alumni activities.
+                </div></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Why is the program cohort-based?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    Because engineering is collaborative. We believe developers grow faster when they work together, review each other's code, solve problems as a team, and build inside a real engineering environment.
+                </div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="cta-box container reveal">
+        <div class="cta-content">
+            <h2>Join the Pilot Cohort</h2>
+            <p>We're launching our first cohort soon.<br>Spots are limited. Apply to secure yours.</p>
+            <button class="btn-primary" onclick="openModal()">Apply for Pilot Cohort →</button>
+        </div>
+        <div class="cta-ghost">
+            <img src="img/2.png" alt="Poltergeist Labs ghost mascot">
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <a href="#" class="nav-logo">
+                <img src="img/3.png" alt="Poltergeist Labs">
+                <div class="nav-logo-text">
+                    <span>POLTERGEIST</span>
+                    <span>LABS</span>
+                </div>
+            </a>
+
+            <ul class="footer-links">
+                <li><a href="#program">Program</a></li>
+                <li><a href="#curriculum">Curriculum</a></li>
+                <li><a href="#mentorship">Mentorship</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+
+            <div class="footer-socials">
+                <a href="#" title="Discord">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.114 18.1.134 18.112a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                    </svg>
+                </a>
+                <a href="#" title="GitHub">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+                    </svg>
+                </a>
+                <a href="#" title="LinkedIn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <p class="footer-copy">© 2024 Poltergeist Labs. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div id="form-container">
+            <h3>Apply for Pilot Cohort</h3>
+            <p>Fill in your details and we'll get back to you shortly.</p>
+            <form id="apply-form" onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" placeholder="Doe" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone" placeholder="+1 234 567 8900" required>
+                </div>
+                <button type="submit" class="btn-submit">Submit Application →</button>
+            </form>
+        </div>
+        <div class="success-message" id="success-msg">
+            <div class="s-icon">👻</div>
+            <h4>Application Received!</h4>
+            <p>Thank you for applying to the Poltergeist Labs Pilot Cohort. We'll review your application and get back to you shortly.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// ── removed static renderCode — code is now inline HTML ──
+const weeks_unused = [
+    // 0 — Engineering Foundations
+    [
+        [`<span class="cmt">// Week 1 — Engineering Foundations</span>`],
+        [`<span class="kw">public class</span> <span class="cls">UserService</span> {`],
+        [``],
+        [`    <span class="kw">private final</span> <span class="cls">UserRepository</span> repository;`],
+        [``],
+        [`    <span class="kw">public</span> <span class="cls">UserService</span>(<span class="cls">UserRepository</span> repository) {`],
+        [`        <span class="kw">this</span>.repository = repository;`],
+        [`    }`],
+        [``],
+        [`    <span class="kw">public</span> <span class="cls">User</span> <span class="fn">findById</span>(<span class="cls">Long</span> id) {`],
+        [`        <span class="kw">return</span> repository.<span class="fn">findById</span>(id)`],
+        [`            .<span class="fn">orElseThrow</span>(() <span class="op">-></span> <span class="kw">new</span> <span class="cls">UserNotFoundException</span>(id));`],
+        [`    }`],
+        [`}`],
+    ],
+    // 1 — REST & Database
+    [
+        [`<span class="ann">@RestController</span>`],
+        [`<span class="ann">@RequestMapping</span>(<span class="str">"/api/users"</span>)`],
+        [`<span class="kw">public class</span> <span class="cls">UserController</span> {`],
+        [``],
+        [`    <span class="kw">private final</span> <span class="cls">UserService</span> userService;`],
+        [``],
+        [`    <span class="ann">@GetMapping</span>(<span class="str">"/{id}"</span>)`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt; <span class="fn">getUser</span>(<span class="ann">@PathVariable</span> <span class="cls">Long</span> id) {`],
+        [`        <span class="cls">User</span> user = userService.<span class="fn">findById</span>(id);`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">ok</span>(user);`],
+        [`    }`],
+        [``],
+        [`    <span class="ann">@PostMapping</span>`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt; <span class="fn">create</span>(<span class="ann">@RequestBody</span> <span class="cls">CreateUserRequest</span> req) {`],
+        [`        <span class="cls">User</span> created = userService.<span class="fn">create</span>(req);`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">201</span>).<span class="fn">body</span>(created);`],
+        [`    }`],
+        [`}`],
+    ],
+    // 2 — Spring Core
+    [
+        [`<span class="ann">@Service</span>`],
+        [`<span class="kw">public class</span> <span class="cls">OrderService</span> {`],
+        [``],
+        [`    <span class="kw">private final</span> <span class="cls">OrderRepository</span> orderRepository;`],
+        [`    <span class="kw">private final</span> <span class="cls">PaymentClient</span> paymentClient;`],
+        [``],
+        [`    <span class="kw">public</span> <span class="cls">Order</span> <span class="fn">createOrder</span>(<span class="cls">CreateOrderRequest</span> request) {`],
+        [`        <span class="cls">Order</span> order = <span class="cls">Order</span>.<span class="fn">create</span>(request);`],
+        [`        <span class="cls">Payment</span> payment = paymentClient.<span class="fn">charge</span>(request);`],
+        [`        order.<span class="fn">complete</span>(payment);`],
+        [`        <span class="kw">return</span> orderRepository.<span class="fn">save</span>(order);`],
+        [`    }`],
+        [`}`],
+    ],
+    // 3 — Spring Boot APIs
+    [
+        [`<span class="ann">@RestController</span>`],
+        [`<span class="ann">@RequestMapping</span>(<span class="str">"/api/orders"</span>)`],
+        [`<span class="ann">@Validated</span>`],
+        [`<span class="kw">public class</span> <span class="cls">OrderController</span> {`],
+        [``],
+        [`    <span class="ann">@PostMapping</span>`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">OrderDto</span>&gt; <span class="fn">create</span>(`],
+        [`            <span class="ann">@RequestBody</span> <span class="ann">@Valid</span> <span class="cls">CreateOrderRequest</span> req) {`],
+        [`        <span class="cls">Order</span> order = orderService.<span class="fn">createOrder</span>(req);`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">201</span>)`],
+        [`                .<span class="fn">body</span>(<span class="cls">OrderDto</span>.<span class="fn">from</span>(order));`],
+        [`    }`],
+        [``],
+        [`    <span class="ann">@ExceptionHandler</span>(<span class="cls">ValidationException</span>.class)`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleValidation</span>(`],
+        [`            <span class="cls">ValidationException</span> ex) {`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">badRequest</span>()`],
+        [`                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(ex.<span class="fn">getMessage</span>()));`],
+        [`    }`],
+        [`}`],
+    ],
+    // 4 — Auth & Security
+    [
+        [`<span class="ann">@Configuration</span>`],
+        [`<span class="ann">@EnableWebSecurity</span>`],
+        [`<span class="kw">public class</span> <span class="cls">SecurityConfig</span> {`],
+        [``],
+        [`    <span class="ann">@Bean</span>`],
+        [`    <span class="kw">public</span> <span class="cls">SecurityFilterChain</span> <span class="fn">filterChain</span>(`],
+        [`            <span class="cls">HttpSecurity</span> http) <span class="kw">throws</span> <span class="cls">Exception</span> {`],
+        [`        <span class="kw">return</span> http`],
+        [`            .<span class="fn">authorizeHttpRequests</span>(auth <span class="op">-></span> auth`],
+        [`                .<span class="fn">requestMatchers</span>(<span class="str">"/api/auth/**"</span>).<span class="fn">permitAll</span>()`],
+        [`                .<span class="fn">anyRequest</span>().<span class="fn">authenticated</span>())`],
+        [`            .<span class="fn">addFilterBefore</span>(jwtFilter,`],
+        [`                <span class="cls">UsernamePasswordAuthenticationFilter</span>.class)`],
+        [`            .<span class="fn">build</span>();`],
+        [`    }`],
+        [`}`],
+    ],
+    // 5 — Testing & Quality
+    [
+        [`<span class="ann">@SpringBootTest</span>`],
+        [`<span class="kw">class</span> <span class="cls">OrderServiceTest</span> {`],
+        [``],
+        [`    <span class="ann">@MockBean</span>`],
+        [`    <span class="kw">private</span> <span class="cls">OrderRepository</span> repository;`],
+        [``],
+        [`    <span class="ann">@Autowired</span>`],
+        [`    <span class="kw">private</span> <span class="cls">OrderService</span> orderService;`],
+        [``],
+        [`    <span class="ann">@Test</span>`],
+        [`    <span class="kw">void</span> <span class="fn">createOrder_shouldSaveAndReturn</span>() {`],
+        [`        <span class="fn">given</span>(repository.<span class="fn">save</span>(<span class="fn">any</span>())).<span class="fn">willReturn</span>(<span class="fn">mockOrder</span>());`],
+        [``],
+        [`        <span class="cls">Order</span> result = orderService.<span class="fn">createOrder</span>(<span class="fn">validRequest</span>());`],
+        [``],
+        [`        <span class="fn">assertThat</span>(result.<span class="fn">getStatus</span>())`],
+        [`                .<span class="fn">isEqualTo</span>(<span class="cls">OrderStatus</span>.COMPLETED);`],
+        [`    }`],
+        [`}`],
+    ],
+    // 6 — Docker & Environment
+    [
+        [`<span class="ann">@Configuration</span>`],
+        [`<span class="kw">public class</span> <span class="cls">DockerConfig</span> {`],
+        [``],
+        [`    <span class="ann">@Value</span>(<span class="str">"${app.redis.host}"</span>)`],
+        [`    <span class="kw">private</span> <span class="cls">String</span> redisHost;`],
+        [``],
+        [`    <span class="ann">@Value</span>(<span class="str">"${app.redis.port}"</span>)`],
+        [`    <span class="kw">private int</span> redisPort;`],
+        [``],
+        [`    <span class="ann">@Bean</span>`],
+        [`    <span class="kw">public</span> <span class="cls">RedisConnectionFactory</span> <span class="fn">redisConnectionFactory</span>() {`],
+        [`        <span class="kw">return new</span> <span class="cls">LettuceConnectionFactory</span>(redisHost, redisPort);`],
+        [`    }`],
+        [``],
+        [`    <span class="cmt">// docker run -p 6379:6379 redis:alpine</span>`],
+        [`    <span class="cmt">// docker run -p 5432:5432 postgres:15</span>`],
+        [`}`],
+    ],
+    // 7 — Redis & Performance
+    [
+        [`<span class="ann">@Service</span>`],
+        [`<span class="kw">public class</span> <span class="cls">ProductService</span> {`],
+        [``],
+        [`    <span class="ann">@Cacheable</span>(value = <span class="str">"products"</span>, key = <span class="str">"#id"</span>)`],
+        [`    <span class="kw">public</span> <span class="cls">Product</span> <span class="fn">findById</span>(<span class="cls">Long</span> id) {`],
+        [`        <span class="kw">return</span> productRepo.<span class="fn">findById</span>(id)`],
+        [`            .<span class="fn">orElseThrow</span>(<span class="cls">ProductNotFoundException</span>::<span class="kw">new</span>);`],
+        [`    }`],
+        [``],
+        [`    <span class="ann">@CacheEvict</span>(value = <span class="str">"products"</span>, key = <span class="str">"#id"</span>)`],
+        [`    <span class="kw">public void</span> <span class="fn">deleteById</span>(<span class="cls">Long</span> id) {`],
+        [`        productRepo.<span class="fn">deleteById</span>(id);`],
+        [`    }`],
+        [``],
+        [`    <span class="ann">@CachePut</span>(value = <span class="str">"products"</span>, key = <span class="str">"#result.id"</span>)`],
+        [`    <span class="kw">public</span> <span class="cls">Product</span> <span class="fn">update</span>(<span class="cls">UpdateProductRequest</span> req) {`],
+        [`        <span class="kw">return</span> productRepo.<span class="fn">save</span>(<span class="cls">Product</span>.<span class="fn">from</span>(req));`],
+        [`    }`],
+        [`}`],
+    ],
+    // 8 — Team Development
+    [
+        [`<span class="cmt">// Team PR — feature/payment-service</span>`],
+        [`<span class="ann">@Service</span>`],
+        [`<span class="ann">@Transactional</span>`],
+        [`<span class="kw">public class</span> <span class="cls">PaymentService</span> {`],
+        [``],
+        [`    <span class="kw">private final</span> <span class="cls">PaymentGateway</span> gateway;`],
+        [`    <span class="kw">private final</span> <span class="cls">TransactionRepository</span> txRepo;`],
+        [``],
+        [`    <span class="kw">public</span> <span class="cls">Transaction</span> <span class="fn">processPayment</span>(<span class="cls">PaymentRequest</span> req) {`],
+        [`        <span class="cls">Payment</span> result = gateway.<span class="fn">charge</span>(req);`],
+        [``],
+        [`        <span class="kw">if</span> (!result.<span class="fn">isSuccessful</span>()) {`],
+        [`            <span class="kw">throw new</span> <span class="cls">PaymentFailedException</span>(result.<span class="fn">getReason</span>());`],
+        [`        }`],
+        [``],
+        [`        <span class="kw">return</span> txRepo.<span class="fn">save</span>(<span class="cls">Transaction</span>.<span class="fn">from</span>(result));`],
+        [`    }`],
+        [`}`],
+    ],
+    // 9 — Finalization & Deploy
+    [
+        [`<span class="ann">@RestControllerAdvice</span>`],
+        [`<span class="kw">public class</span> <span class="cls">GlobalExceptionHandler</span> {`],
+        [``],
+        [`    <span class="ann">@ExceptionHandler</span>(<span class="cls">EntityNotFoundException</span>.class)`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleNotFound</span>(`],
+        [`            <span class="cls">EntityNotFoundException</span> ex) {`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">404</span>)`],
+        [`                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(<span class="str">"NOT_FOUND"</span>, ex.<span class="fn">getMessage</span>()));`],
+        [`    }`],
+        [``],
+        [`    <span class="ann">@ExceptionHandler</span>(<span class="cls">Exception</span>.class)`],
+        [`    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleGeneral</span>(<span class="cls">Exception</span> ex) {`],
+        [`        log.<span class="fn">error</span>(<span class="str">"Unhandled exception"</span>, ex);`],
+        [`        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">status</span>(<span class="num">500</span>)`],
+        [`                .<span class="fn">body</span>(<span class="kw">new</span> <span class="cls">ErrorResponse</span>(<span class="str">"SERVER_ERROR"</span>, <span class="str">"Something went wrong"</span>));`],
+        [`    }`],
+        [`}`],
+    ],
+    // 10 — Demo Day
+    [
+        [`<span class="cmt">// Capstone Project — Final Demo</span>`],
+        [`<span class="ann">@SpringBootApplication</span>`],
+        [`<span class="kw">public class</span> <span class="cls">PoltergeistApplication</span> {`],
+        [``],
+        [`    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {`],
+        [`        <span class="cls">SpringApplication</span>.<span class="fn">run</span>(<span class="cls">PoltergeistApplication</span>.class, args);`],
+        [`    }`],
+        [`}`],
+        [``],
+        [`<span class="cmt">// ─────────────────────────────────────────────</span>`],
+        [`<span class="cmt">// Team: 4 developers</span>`],
+        [`<span class="cmt">// 847 commits  ·  112 pull requests</span>`],
+        [`<span class="cmt">// 68 code reviews  ·  3 deployments</span>`],
+        [`<span class="cmt">// ─────────────────────────────────────────────</span>`],
+    ],
+];
+
+function renderCode() {
+    weeks.forEach((lines, wi) => {
+        const el = document.getElementById('code-' + wi);
+        if (!el) return;
+        el.innerHTML = lines.map((parts, i) =>
+            `<div class="code-line">` +
+            `<span class="ln">${i + 1}</span>` +
+            `<span class="code-text">${parts[0] ?? ''}</span>` +
+            `</div>`
+        ).join('');
+    });
+}
+
+// ── UI interactions ─────────────────────────────────────────────────────────
+function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+}
+
+function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+}
+
+function selectWeek(el, idx) {
+    document.querySelectorAll('.week-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.week-detail-content').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('week-' + idx).classList.add('active');
+}
+
+function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('apply-form');
+    const data = new FormData(form);
+
+    fetch('https://formsubmit.co/ajax/shonraprince@gmail.com', {
+        method: 'POST',
+        body: JSON.stringify({
+            first_name: data.get('first_name'),
+            last_name:  data.get('last_name'),
+            email:      data.get('email'),
+            phone:      data.get('phone'),
+            _subject:   'New Application — Poltergeist Labs Pilot Cohort'
+        }),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(showSuccess)
+    .catch(showSuccess);
+}
+
+function showSuccess() {
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMobileMenu(); } });
+
+// ── Scroll reveal ────────────────────────────────────────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+
+        if (el.classList.contains('reveal-stagger')) {
+            Array.from(el.children).forEach((child, i) => {
+                child.style.animationDelay = (i * 0.07) + 's';
+            });
+        }
+
+        el.classList.add('visible');
+        revealObserver.unobserve(el);
+    });
+}, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => revealObserver.observe(el));
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('hamburger');
+    const open = menu.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
