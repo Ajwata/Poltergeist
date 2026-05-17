@@ -714,6 +714,12 @@
 
         .form-group input:focus { border-color: var(--purple); }
         .form-group input::placeholder { color: var(--muted); opacity: .4; }
+        .form-group input.input-error { border-color: #e05252; }
+        .field-error { display: none; font-size: 11px; color: #e05252; margin-top: 5px; }
+        .field-error.visible { display: block; }
+        .form-error-banner { display: none; background: rgba(224,82,82,.12); border: 1px solid rgba(224,82,82,.35); color: #e05252; font-size: 13px; border-radius: 8px; padding: 10px 13px; margin-bottom: 14px; }
+        .form-error-banner.visible { display: block; }
+        .hp-field { opacity: 0; position: absolute; top: 0; left: 0; height: 0; width: 0; z-index: -1; }
 
         .btn-submit {
             width: 100%;
@@ -1781,7 +1787,10 @@
         <div id="form-container">
             <h3>Apply for Pilot Cohort</h3>
             <p>Fill in your details and we'll get back to you shortly.</p>
-            <form id="apply-form" onsubmit="handleSubmit(event)">
+            <form id="apply-form" onsubmit="handleSubmit(event)" autocomplete="off">
+                <!-- honeypot: bots fill this, humans don't -->
+                <input class="hp-field" type="text" name="_hp" tabindex="-1" autocomplete="off">
+                <div id="form-error-banner" class="form-error-banner"></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>First Name</label>
@@ -1794,13 +1803,14 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" placeholder="john@example.com" required>
+                    <input type="email" name="email" id="input-email" placeholder="john@example.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" placeholder="+1 234 567 8900" required>
+                    <label>Phone Number (Slovakia)</label>
+                    <input type="tel" name="phone" id="input-phone" placeholder="+421 9XX XXX XXX" required>
+                    <span class="field-error" id="phone-error">Enter a valid Slovak number: +421 9XX XXX XXX</span>
                 </div>
-                <button type="submit" class="btn-submit">Submit Application →</button>
+                <button type="submit" class="btn-submit" id="btn-submit">Submit Application →</button>
             </form>
         </div>
         <div class="success-message" id="success-msg">
@@ -2076,15 +2086,131 @@ function selectWeek(el, idx) {
     document.getElementById('week-' + idx).classList.add('active');
 }
 
+// ── Anti-spam helpers ────────────────────────────────────────────────────────
+const _LS_LAST   = 'pl_last_submit';
+const _LS_SEEN   = 'pl_seen_emails';
+const _COOLDOWN  = 60000; // ms between submissions
+const _MAX_TRIES = 5;     // max attempts per browser session
+let _sessionTries = 0;
+
+function _slovakPhoneValid(raw) {
+    const clean = raw.replace(/[\s\-().]/g, '');
+    return /^\+421[0-9]{9}$/.test(clean);
+}
+
+function _isRateLimited() {
+    const last = parseInt(localStorage.getItem(_LS_LAST) || '0', 10);
+    return (Date.now() - last) < _COOLDOWN;
+}
+
+function _isDuplicate(email) {
+    try {
+        const seen = JSON.parse(localStorage.getItem(_LS_SEEN) || '[]');
+        return seen.includes(email.toLowerCase().trim());
+    } catch { return false; }
+}
+
+function _markSubmitted(email) {
+    try {
+        const seen = JSON.parse(localStorage.getItem(_LS_SEEN) || '[]');
+        seen.push(email.toLowerCase().trim());
+        localStorage.setItem(_LS_SEEN, JSON.stringify(seen));
+        localStorage.setItem(_LS_LAST, String(Date.now()));
+    } catch {}
+}
+
+function _showBanner(msg) {
+    const el = document.getElementById('form-error-banner');
+    el.textContent = msg;
+    el.classList.add('visible');
+}
+
+function _clearBanner() {
+    const el = document.getElementById('form-error-banner');
+    el.classList.remove('visible');
+}
+
+function _setPhoneError(show) {
+    const inp = document.getElementById('input-phone');
+    const err = document.getElementById('phone-error');
+    inp.classList.toggle('input-error', show);
+    err.classList.toggle('visible', show);
+}
+
+// Auto-format phone input to +421 XXX XXX XXX
+document.getElementById('input-phone').addEventListener('input', function () {
+    let digits = this.value.replace(/\D/g, '');
+    // Strip leading country code if user typed it
+    if (digits.startsWith('421')) digits = digits.slice(3);
+    if (digits.startsWith('00421')) digits = digits.slice(5);
+    digits = digits.slice(0, 9);
+    let formatted = '+421';
+    if (digits.length > 0) formatted += ' ' + digits.slice(0, 3);
+    if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+    if (digits.length > 6) formatted += ' ' + digits.slice(6, 9);
+    this.value = formatted;
+    _setPhoneError(false);
+});
+
+document.getElementById('input-phone').addEventListener('keydown', function (e) {
+    // Allow backspace to clear naturally
+    if (e.key === 'Backspace' && this.value === '+421') {
+        this.value = '';
+        e.preventDefault();
+    }
+});
+
+document.getElementById('input-email').addEventListener('input', _clearBanner);
+
+// ── Main submit handler ───────────────────────────────────────────────────────
 function handleSubmit(e) {
     e.preventDefault();
+    _clearBanner();
+    _setPhoneError(false);
+
+    // Honeypot check — silent drop if bot filled the hidden field
+    if (document.querySelector('[name="_hp"]').value) return;
+
+    // Session attempt limit
+    _sessionTries++;
+    if (_sessionTries > _MAX_TRIES) {
+        _showBanner('Too many attempts. Please try again later.');
+        return;
+    }
+
     const form = document.getElementById('apply-form');
     const data = new FormData(form);
+    const firstName = data.get('first_name').trim();
+    const lastName  = data.get('last_name').trim();
+    const email     = data.get('email').trim();
+    const phone     = data.get('phone').trim();
 
-    const firstName = data.get('first_name');
-    const lastName  = data.get('last_name');
-    const email     = data.get('email');
-    const phone     = data.get('phone');
+    // Slovak phone validation
+    if (!_slovakPhoneValid(phone)) {
+        _setPhoneError(true);
+        document.getElementById('input-phone').focus();
+        return;
+    }
+
+    // Rate limit: 60s cooldown
+    if (_isRateLimited()) {
+        const wait = Math.ceil((_COOLDOWN - (Date.now() - parseInt(localStorage.getItem(_LS_LAST) || '0', 10))) / 1000);
+        _showBanner(`Please wait ${wait} seconds before submitting again.`);
+        return;
+    }
+
+    // Duplicate check by email
+    if (_isDuplicate(email)) {
+        _showBanner('An application with this email was already submitted.');
+        return;
+    }
+
+    // Disable button to prevent double-click
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    _markSubmitted(email);
 
     const emailPromise = fetch('https://formsubmit.co/ajax/shonraprince@gmail.com', {
         method: 'POST',
