@@ -2080,19 +2080,33 @@ function handleSubmit(e) {
     const form = document.getElementById('apply-form');
     const data = new FormData(form);
 
-    fetch('https://formsubmit.co/ajax/shonraprince@gmail.com', {
+    const firstName = data.get('first_name');
+    const lastName  = data.get('last_name');
+    const email     = data.get('email');
+    const phone     = data.get('phone');
+
+    const emailPromise = fetch('https://formsubmit.co/ajax/shonraprince@gmail.com', {
         method: 'POST',
         body: JSON.stringify({
-            first_name: data.get('first_name'),
-            last_name:  data.get('last_name'),
-            email:      data.get('email'),
-            phone:      data.get('phone'),
+            first_name: firstName,
+            last_name:  lastName,
+            email:      email,
+            phone:      phone,
             _subject:   'New Application — Poltergeist Labs Pilot Cohort'
         }),
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-    })
-    .then(showSuccess)
-    .catch(showSuccess);
+    });
+
+    const tgToken  = '8984601044:AAHhmN-Y_8iuBhYxWZCldDO1Z7YDWj_lZKk';
+    const tgChatId = '-1003963611459';
+    const tgText   = `👻 *Новая заявка — Poltergeist Labs*\n\n👤 *Имя:* ${firstName} ${lastName}\n📧 *Email:* ${email}\n📞 *Телефон:* ${phone}`;
+    const tgPromise = fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+        method: 'POST',
+        body: JSON.stringify({ chat_id: tgChatId, text: tgText, parse_mode: 'Markdown' }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    Promise.all([emailPromise, tgPromise]).then(showSuccess).catch(showSuccess);
 }
 
 function showSuccess() {
